@@ -1,0 +1,30 @@
+name: Python CI/CD Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4 # Paso 1: Descarga el código
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5 # Paso 2: Configura el entorno Python
+      with:
+        python-version: '3.x' # Puedes especificar una versión exacta como '3.10'
+
+    - name: Install dependencies
+      run: | # Paso 3: Instala pytest
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Test with pytest
+      run: | # Paso 4: Ejecuta las pruebas
+        pytest
